@@ -117,36 +117,60 @@ class _DropdownOverlayState<T> extends State<_DropdownOverlay<T>> {
     final listPadding = onSearch ? const EdgeInsets.only(top: 8) : EdgeInsets.zero;
 
     // items list
-    final list = items.isNotEmpty
-        ? _ItemsList<T>(
-            scrollController: scrollController,
-            listItemBuilder: widget.listItemBuilder,
-            excludeSelected: widget.items.length > 1 ? widget.excludeSelected! : false,
-            items: items,
-            padding: listPadding,
-            headerText: headerText,
-            onItemSelect: (T value) {
-              searchableTextItem(T item) => '$item';
-              if (headerText != value) {
-                widget.controller.text = (widget.searchableTextItem ?? searchableTextItem)(value);
-              }
-              widget.onItemSelect(value);
-              setState(() => displayOverly = false);
-            },
-          )
-        : (mayFoundSearchRequestResult != null && !mayFoundSearchRequestResult!) || widget.searchType == SearchType.onListData
-            ? const Center(
-                child: Padding(
-                  padding: EdgeInsets.symmetric(vertical: 12.0),
-                  child: Text(
-                    'No result found.',
-                    style: TextStyle(fontSize: 16),
-                  ),
-                ),
-              )
-            : const SizedBox(height: 12);
+    log((headerText: headerText).toString());
+    log((hintText: widget.hintText).toString());
+    final child = stacked(overlayOffset, borderRadius, onSearch, context, overlayIcon, listItems(listPadding));
 
-    final child = Stack(
+    return GestureDetector(
+      onTap: () => setState(() => displayOverly = false),
+      child: widget.canCloseOutsideBounds!
+          ? Container(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
+              color: Colors.transparent,
+              child: child,
+            )
+          : child,
+    );
+  }
+
+  Widget listItems(EdgeInsets listPadding) {
+    if (items.isNotEmpty) {
+      return _ItemsList<T>(
+        scrollController: scrollController,
+        listItemBuilder: widget.listItemBuilder,
+        excludeSelected: widget.items.length > 1 ? widget.excludeSelected! : false,
+        items: items,
+        padding: listPadding,
+        headerText: headerText,
+        onItemSelect: (T value) {
+          searchableTextItem(T item) => '$item';
+          if (headerText != value) {
+            widget.controller.text = (widget.searchableTextItem ?? searchableTextItem)(value);
+          }
+          widget.onItemSelect(value);
+          setState(() => displayOverly = false);
+        },
+      );
+    } else {
+      if ((mayFoundSearchRequestResult != null && !mayFoundSearchRequestResult!) || widget.searchType == SearchType.onListData) {
+        return const Center(
+          child: Padding(
+            padding: EdgeInsets.symmetric(vertical: 12.0),
+            child: Text(
+              'No result found.',
+              style: TextStyle(fontSize: 16),
+            ),
+          ),
+        );
+      } else {
+        return const SizedBox(height: 12);
+      }
+    }
+  }
+
+  Stack stacked(Offset overlayOffset, BorderRadius borderRadius, bool onSearch, BuildContext context, Icon overlayIcon, Widget list) {
+    return Stack(
       children: [
         Positioned(
           width: widget.size.width + 24,
@@ -180,8 +204,8 @@ class _DropdownOverlayState<T> extends State<_DropdownOverlay<T>> {
                       key: key2,
                       height: items.length > 4
                           ? onSearch
-                              ? 270
-                              : 225
+                              ? 530
+                              : 385
                           : null,
                       child: ClipRRect(
                         borderRadius: borderRadius,
@@ -331,18 +355,6 @@ class _DropdownOverlayState<T> extends State<_DropdownOverlay<T>> {
           ),
         ),
       ],
-    );
-
-    return GestureDetector(
-      onTap: () => setState(() => displayOverly = false),
-      child: widget.canCloseOutsideBounds!
-          ? Container(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.height,
-              color: Colors.transparent,
-              child: child,
-            )
-          : child,
     );
   }
 }
