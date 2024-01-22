@@ -117,8 +117,6 @@ class _DropdownOverlayState<T> extends State<_DropdownOverlay<T>> {
     final listPadding = onSearch ? const EdgeInsets.only(top: 8) : EdgeInsets.zero;
 
     // items list
-    log((headerText: headerText).toString());
-    log((hintText: widget.hintText).toString());
     final child = stacked(overlayOffset, borderRadius, onSearch, context, overlayIcon, listItems(listPadding));
 
     return GestureDetector(
