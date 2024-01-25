@@ -117,7 +117,14 @@ class _DropdownOverlayState<T> extends State<_DropdownOverlay<T>> {
     final listPadding = onSearch ? const EdgeInsets.only(top: 8) : EdgeInsets.zero;
 
     // items list
-    final child = stacked(overlayOffset, borderRadius, onSearch, context, overlayIcon, listItems(listPadding));
+    final child = stacked(
+      overlayOffset,
+      borderRadius,
+      onSearch,
+      context,
+      overlayIcon,
+      listItems(listPadding),
+    );
 
     return GestureDetector(
       onTap: () => setState(() => displayOverly = false),
@@ -167,7 +174,14 @@ class _DropdownOverlayState<T> extends State<_DropdownOverlay<T>> {
     }
   }
 
-  Stack stacked(Offset overlayOffset, BorderRadius borderRadius, bool onSearch, BuildContext context, Icon overlayIcon, Widget list) {
+  Stack stacked(
+    Offset overlayOffset,
+    BorderRadius borderRadius,
+    bool onSearch,
+    BuildContext context,
+    Icon overlayIcon,
+    Widget list,
+  ) {
     return Stack(
       children: [
         Positioned(

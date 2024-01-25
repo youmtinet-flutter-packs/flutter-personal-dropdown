@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 
 import 'package:flutter/material.dart';
 
@@ -33,7 +32,7 @@ class CustomDropdown<T> extends StatefulWidget {
   //duration after which the 'future Request' is to be executed
   final Duration? futureRequestDelay;
   final bool Function(T item, String searchPrompt)? searchFunction;
-  final String Function(T item)? searchableTextItem;
+  final String Function(T item) searchableTextItem;
   final void Function(T item) onItemSelect;
   final SearchType? searchType;
   final void Function(String value)? onChanged;
@@ -57,7 +56,7 @@ class CustomDropdown<T> extends StatefulWidget {
     required this.listItemBuilder,
     this.onChanged,
     required this.onItemSelect,
-    this.searchableTextItem,
+    // this.searchableTextItem,
     this.futureRequest,
     this.hintText,
     this.hintStyle,
@@ -70,9 +69,10 @@ class CustomDropdown<T> extends StatefulWidget {
     this.fieldSuffixIcon,
     this.excludeSelected = true,
     this.fillColor = Colors.white,
-  })  : assert(items.isNotEmpty, 'Items list must contain at least one item.'),
+  })  : searchableTextItem = ((T item) => '$item'),
+        assert(items.isNotEmpty, 'Items list must contain at least one item.'),
         assert(
-          controller.text.isEmpty || items.map((e) => (searchableTextItem ?? (T item) => '$item')(e)).contains(controller.text),
+          controller.text.isEmpty || items.map((e) => ((T item) => '$item')(e)).contains(controller.text),
           'Controller value must match with one of the item in items list.',
         ),
         searchType = null,
@@ -89,6 +89,7 @@ class CustomDropdown<T> extends StatefulWidget {
     required this.controller,
     required this.searchFunction,
     required this.searchableTextItem,
+    // required String Function(T) searchableTextItem,
     required this.onItemSelect,
     this.onChanged,
     this.hintText,
@@ -106,7 +107,7 @@ class CustomDropdown<T> extends StatefulWidget {
     this.fillColor = Colors.white,
   })  : assert(items.isNotEmpty, 'Items list must contain at least one item.'),
         assert(
-          controller.text.isEmpty || items.map((e) => (searchableTextItem ?? (T item) => '$item')(e)).contains(controller.text),
+          controller.text.isEmpty || items.map((e) => searchableTextItem(e)).contains(controller.text),
           'Controller value must match with one of the item in items list.',
         ),
         futureRequest = null,
@@ -115,14 +116,15 @@ class CustomDropdown<T> extends StatefulWidget {
         super(key: key);
 
   const CustomDropdown.searchRequest({
-    Key? key,
+    super.key,
     required this.items,
     required this.listItemBuilder,
     required this.controller,
     this.onChanged,
-    required Future<List<T>> Function(String) futureReq,
-    required String Function(T)? searchableItemText,
-    required bool Function(T, String) searchMethod,
+    this.searchType = SearchType.onRequestData,
+    required this.futureRequest,
+    required this.searchableTextItem,
+    required this.searchFunction,
     required this.onItemSelect,
     this.futureRequestDelay,
     this.hintText,
@@ -138,15 +140,13 @@ class CustomDropdown<T> extends StatefulWidget {
     this.canCloseOutsideBounds = true,
     this.hideSelectedFieldWhenOpen = false,
     this.fillColor = Colors.white,
-  })  : /* assert(
+  }); /* : assert(
           (listItemBuilder == null && listItemStyle == null) || (listItemBuilder == null && listItemStyle != null) || (listItemBuilder != null && listItemStyle == null),
           'Cannot use both listItemBuilder and listItemStyle.',
         ), */
-        futureRequest = futureReq,
-        searchFunction = searchMethod,
-        searchableTextItem = searchableItemText,
-        searchType = SearchType.onRequestData,
-        super(key: key);
+  // futureRequest = futureReq,
+  // searchFunction = searchMethod,
+  // super(key: key);
 
   @override
   State<CustomDropdown<T>> createState() => _CustomDropdownState();
