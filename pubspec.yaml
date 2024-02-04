@@ -1,11 +1,11 @@
 name: personal_dropdown
 description: A new Flutter plugin project.
-version: 0.0.1
+version: 1.0.4
 homepage: No Home Page
 
 environment:
-  sdk: '>=3.1.0 <4.0.0'
-  flutter: '>=3.3.0'
+  sdk: ">=3.1.0 <4.0.0"
+  flutter: ">=3.3.0"
 
 dependencies:
   flutter:
