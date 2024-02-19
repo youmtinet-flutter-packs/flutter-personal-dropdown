@@ -19,9 +19,9 @@ class _DropdownOverlay<T> extends StatefulWidget {
   final VoidCallback hideOverlay;
   final String hintText;
   final TextStyle? headerStyle;
-  final bool? excludeSelected;
+  final bool excludeSelected;
   final bool? hideSelectedFieldWhenOpen;
-  final bool? canCloseOutsideBounds;
+  final bool canCloseOutsideBounds;
   final SearchType? searchType;
   final Future<List<T>> Function(String)? futureRequest;
   final Duration? futureRequestDelay;
@@ -43,8 +43,8 @@ class _DropdownOverlay<T> extends StatefulWidget {
     required this.searchableTextItem,
     required this.onItemSelect,
     this.headerStyle,
-    this.excludeSelected,
-    this.canCloseOutsideBounds,
+    this.excludeSelected = false,
+    this.canCloseOutsideBounds = true,
     this.hideSelectedFieldWhenOpen = false,
     this.searchType,
     this.futureRequestDelay,
@@ -81,7 +81,7 @@ class _DropdownOverlayState<T> extends State<_DropdownOverlay<T>> {
     });
 
     headerText = widget.controller.text;
-    if (widget.excludeSelected! && widget.items.length > 1 && widget.controller.text.isNotEmpty) {
+    if (widget.excludeSelected && widget.items.length > 1 && widget.controller.text.isNotEmpty) {
       items = widget.items.where((item) => item != headerText).toList();
     } else {
       items = widget.items;
@@ -106,7 +106,6 @@ class _DropdownOverlayState<T> extends State<_DropdownOverlay<T>> {
     // overlay icon
     final overlayIcon = Icon(
       displayOverlayBottom ? Icons.keyboard_arrow_up_rounded : Icons.keyboard_arrow_down_rounded,
-      color: Colors.black,
       size: 20,
     );
 
@@ -128,11 +127,11 @@ class _DropdownOverlayState<T> extends State<_DropdownOverlay<T>> {
 
     return GestureDetector(
       onTap: () => setState(() => displayOverly = false),
-      child: widget.canCloseOutsideBounds!
+      child: widget.canCloseOutsideBounds
           ? Container(
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height,
-              color: Colors.transparent,
+              color: transparent,
               child: child,
             )
           : child,
@@ -144,7 +143,7 @@ class _DropdownOverlayState<T> extends State<_DropdownOverlay<T>> {
       return _ItemsList<T>(
         scrollController: scrollController,
         listItemBuilder: widget.listItemBuilder,
-        excludeSelected: widget.items.length > 1 ? widget.excludeSelected! : false,
+        excludeSelected: widget.items.length > 1 ? widget.excludeSelected : false,
         items: items,
         padding: listPadding,
         headerText: headerText,
@@ -196,18 +195,18 @@ class _DropdownOverlayState<T> extends State<_DropdownOverlay<T>> {
               padding: _overlayOuterPadding,
               child: DecoratedBox(
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: Theme.of(context).colorScheme.background,
                   borderRadius: borderRadius,
                   boxShadow: [
                     BoxShadow(
                       blurRadius: 24.0,
-                      color: Colors.black.withOpacity(.08),
+                      color: (Theme.of(context).iconTheme.color ?? grey).withOpacity(.08),
                       offset: _overlayShadowOffset,
                     ),
                   ],
                 ),
                 child: Material(
-                  color: Colors.transparent,
+                  color: transparent,
                   child: AnimatedSection(
                     animationDismissed: widget.hideOverlay,
                     expand: displayOverly,
@@ -234,9 +233,7 @@ class _DropdownOverlayState<T> extends State<_DropdownOverlay<T>> {
                                 ),
                                 thickness: MaterialStateProperty.all(5),
                                 radius: const Radius.circular(4),
-                                thumbColor: MaterialStateProperty.all(
-                                  Colors.grey[300],
-                                ),
+                                thumbColor: MaterialStateProperty.all(grey),
                               ),
                             ),
                             child: Column(
@@ -347,7 +344,6 @@ class _DropdownOverlayState<T> extends State<_DropdownOverlay<T>> {
                                       width: 25,
                                       height: 25,
                                       child: CircularProgressIndicator(
-                                        color: Colors.black,
                                         strokeWidth: 3,
                                       ),
                                     )),

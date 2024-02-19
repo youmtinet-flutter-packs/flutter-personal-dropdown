@@ -6,6 +6,8 @@ void main() {
   runApp(const MyApp());
 }
 
+const Color primaryDark = Color(0xFF0122DF);
+
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
@@ -24,6 +26,7 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: theme(),
       home: Scaffold(
         appBar: AppBar(
           title: const Text('Plugin example app'),
@@ -33,7 +36,7 @@ class _MyAppState extends State<MyApp> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              CustomDropdown<int>(
+              /* CustomDropdown<int>.search(
                 items: List.generate(10, (index) => index + 1),
                 controller: controller,
                 listItemBuilder: (context, result) {
@@ -50,6 +53,37 @@ class _MyAppState extends State<MyApp> {
                   setState(() {
                     selectedPlayer = item;
                   });
+                },
+                searchFunction: (int item, String searchPrompt) {
+                  return 'Player $item'.contains(searchPrompt);
+                },
+                searchableTextItem: (int item) {
+                  return '$item';
+                },
+              ), */
+              CustomDropdown<String>.search(
+                items: List.generate(10, (index) => '${index + 1}'),
+                controller: controller,
+                listItemBuilder: (context, result) {
+                  return Text(
+                    result,
+                    style: TextStyle(
+                      color: result == '$selectedPlayer' ? Colors.red : null,
+                      fontSize: result == '$selectedPlayer' ? 18 : null,
+                      fontWeight: result == '$selectedPlayer' ? FontWeight.bold : null,
+                    ),
+                  );
+                },
+                onItemSelect: (item) {
+                  setState(() {
+                    selectedPlayer = int.parse(item);
+                  });
+                },
+                searchFunction: (item, String searchPrompt) {
+                  return 'Player $item'.contains(searchPrompt);
+                },
+                searchableTextItem: (item) {
+                  return item;
                 },
               ),
               Text(
@@ -72,6 +106,51 @@ class _MyAppState extends State<MyApp> {
           ),
         ),
       ),
+    );
+  }
+
+  ThemeData theme() {
+    return ThemeData.dark().copyWith(
+      scaffoldBackgroundColor: Colors.grey.shade900,
+      useMaterial3: true,
+      colorScheme: const ColorScheme.dark(
+        primary: primaryDark,
+        error: Color(0xFF85120A),
+        background: Colors.black,
+      ),
+      brightness: Brightness.dark,
+      dialogBackgroundColor: Colors.transparent,
+      appBarTheme: const AppBarTheme(
+        //color: Colo rs.black,
+        elevation: 5,
+        centerTitle: true,
+        titleTextStyle: TextStyle(
+          fontSize: 16,
+          fontFamily: "WORK SANS",
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+      primaryTextTheme: const TextTheme(),
+      inputDecorationTheme: () {
+        OutlineInputBorder outlineInputBorder = OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: const BorderSide(color: Colors.white),
+          gapPadding: 10,
+        );
+        return InputDecorationTheme(
+          floatingLabelBehavior: FloatingLabelBehavior.always,
+          contentPadding: const EdgeInsets.only(
+            right: 32,
+            top: 10,
+            left: 32,
+            bottom: 10,
+          ),
+          enabledBorder: outlineInputBorder,
+          focusedBorder: outlineInputBorder,
+          border: outlineInputBorder,
+        );
+      }(),
+      visualDensity: VisualDensity.adaptivePlatformDensity,
     );
   }
 }

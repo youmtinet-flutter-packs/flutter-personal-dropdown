@@ -36,13 +36,13 @@ class _ItemsList<T> extends StatelessWidget {
         itemBuilder: (_, index) {
           final selected = !excludeSelected && headerText == items[index];
           return Material(
-            color: Colors.transparent,
+            color: transparent,
             child: InkWell(
-              splashColor: Colors.transparent,
-              highlightColor: Colors.grey[200],
+              splashColor: transparent,
+              highlightColor: grey[200],
               onTap: () => onItemSelect(items[index]),
               child: Container(
-                color: selected ? Colors.grey[100] : Colors.transparent,
+                color: selected ? Theme.of(context).colorScheme.primary : transparent,
                 padding: _listItemPadding,
                 child: AbsorbPointer(child: listItemBuilder(context, items[index])),
               ),
@@ -188,34 +188,32 @@ class _SearchFieldState<T> extends State<_SearchField<T>> {
         controller: searchCtrl,
         decoration: InputDecoration(
           filled: true,
-          fillColor: Colors.grey[50],
           constraints: const BoxConstraints.tightFor(height: 40),
           contentPadding: const EdgeInsets.all(8),
           hintText: 'Search',
-          hintStyle: const TextStyle(color: Colors.grey),
-          prefixIcon: const Icon(Icons.search, color: Colors.grey, size: 22),
+          prefixIcon: const Icon(Icons.search, size: 22),
           suffixIcon: GestureDetector(
             onTap: onClear,
-            child: const Icon(Icons.close, color: Colors.grey, size: 20),
+            child: const Icon(Icons.close, size: 20),
           ),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8),
             borderSide: BorderSide(
-              color: Colors.grey.withOpacity(.25),
+              color: grey.withOpacity(.25),
               width: 1,
             ),
           ),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8),
             borderSide: BorderSide(
-              color: Colors.grey.withOpacity(.25),
+              color: grey.withOpacity(.25),
               width: 1,
             ),
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(8),
             borderSide: BorderSide(
-              color: Colors.grey.withOpacity(.25),
+              color: grey.withOpacity(.25),
               width: 1,
             ),
           ),

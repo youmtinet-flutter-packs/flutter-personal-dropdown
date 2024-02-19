@@ -1,6 +1,9 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:flutter/material.dart';
+
+import 'cool_dropdown/cool_dropdown.dart';
 
 export 'personal_dropdown.dart';
 
@@ -24,9 +27,9 @@ class CustomDropdown<T> extends StatefulWidget {
   final List<T> items;
   final TextEditingController controller;
   // // // additional
-  final bool? canCloseOutsideBounds;
+  final bool canCloseOutsideBounds;
   final bool? hideSelectedFieldWhenOpen;
-  final bool? excludeSelected;
+  final bool excludeSelected;
   // Search
   final Future<List<T>> Function(String)? futureRequest;
   //duration after which the 'future Request' is to be executed
@@ -67,8 +70,8 @@ class CustomDropdown<T> extends StatefulWidget {
     this.borderRadius,
     this.borderSide,
     this.fieldSuffixIcon,
-    this.excludeSelected = true,
-    this.fillColor = Colors.white,
+    this.excludeSelected = false,
+    this.fillColor,
   })  : searchableTextItem = ((T item) => '$item'),
         assert(items.isNotEmpty, 'Items list must contain at least one item.'),
         assert(
@@ -101,10 +104,10 @@ class CustomDropdown<T> extends StatefulWidget {
     this.borderRadius,
     this.borderSide,
     this.fieldSuffixIcon,
-    this.excludeSelected = true,
+    this.excludeSelected = false,
     this.canCloseOutsideBounds = true,
     this.hideSelectedFieldWhenOpen = false,
-    this.fillColor = Colors.white,
+    this.fillColor,
   })  : assert(items.isNotEmpty, 'Items list must contain at least one item.'),
         assert(
           controller.text.isEmpty || items.map((e) => searchableTextItem(e)).contains(controller.text),
@@ -136,10 +139,10 @@ class CustomDropdown<T> extends StatefulWidget {
     this.borderRadius,
     this.borderSide,
     this.fieldSuffixIcon,
-    this.excludeSelected = true,
+    this.excludeSelected = false,
     this.canCloseOutsideBounds = true,
     this.hideSelectedFieldWhenOpen = false,
-    this.fillColor = Colors.white,
+    this.fillColor,
   }); /* : assert(
           (listItemBuilder == null && listItemStyle == null) || (listItemBuilder == null && listItemStyle != null) || (listItemBuilder != null && listItemStyle == null),
           'Cannot use both listItemBuilder and listItemStyle.',
@@ -163,7 +166,6 @@ class _CustomDropdownState<T> extends State<CustomDropdown<T>> {
     // hint style :: if provided then merge with default
     final hintStyle = const TextStyle(
       fontSize: 16,
-      color: Color(0xFFA7A7A7),
       fontWeight: FontWeight.w400,
     ).merge(widget.hintStyle);
 
