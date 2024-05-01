@@ -1,20 +1,11 @@
 import 'dart:async';
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
-
 import 'cool_dropdown/cool_dropdown.dart';
-
 export 'personal_dropdown.dart';
-
 part 'cool_dropdown/animated_section.dart';
-
 part 'cool_dropdown/dropdown_field.dart';
-
 part 'cool_dropdown/overlay.dart';
-
 part 'cool_dropdown/items_field.dart';
-
 part 'cool_dropdown/builder.dart';
 
 enum SearchType { onListData, onRequestData }
@@ -26,6 +17,8 @@ class CustomDropdown<T> extends StatefulWidget {
   final Widget Function(BuildContext context, T result) listItemBuilder;
   final List<T> items;
   final TextEditingController controller;
+
+  final Color? itemBgColor;
   // // // additional
   final bool canCloseOutsideBounds;
   final bool? hideSelectedFieldWhenOpen;
@@ -62,6 +55,7 @@ class CustomDropdown<T> extends StatefulWidget {
     // this.searchableTextItem,
     this.futureRequest,
     this.hintText,
+    this.itemBgColor,
     this.hintStyle,
     this.selectedStyle,
     this.errorText,
@@ -98,6 +92,7 @@ class CustomDropdown<T> extends StatefulWidget {
     this.hintText,
     this.hintStyle,
     this.selectedStyle,
+    this.itemBgColor,
     this.errorText,
     this.errorStyle,
     this.errorBorderSide,
@@ -129,6 +124,7 @@ class CustomDropdown<T> extends StatefulWidget {
     required this.searchableTextItem,
     required this.searchFunction,
     required this.onItemSelect,
+    this.itemBgColor,
     this.futureRequestDelay,
     this.hintText,
     this.hintStyle,
@@ -181,6 +177,7 @@ class _CustomDropdownState<T> extends State<CustomDropdown<T>> {
           items: widget.items,
           controller: widget.controller,
           size: size,
+          itemBgColor: widget.itemBgColor,
           searchableTextItem: widget.searchableTextItem,
           listItemBuilder: widget.listItemBuilder,
           layerLink: layerLink,

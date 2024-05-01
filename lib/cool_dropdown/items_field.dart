@@ -187,7 +187,8 @@ class _SearchFieldState<T> extends State<_SearchField<T>> {
         },
         controller: searchCtrl,
         decoration: InputDecoration(
-          filled: true,
+          //   filled: true,
+          //   fillColor: ,
           constraints: const BoxConstraints.tightFor(height: 40),
           contentPadding: const EdgeInsets.all(8),
           hintText: 'Search',

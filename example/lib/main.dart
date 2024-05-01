@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 
 import 'package:personal_dropdown/personal_dropdown.dart';
@@ -6,7 +8,7 @@ void main() {
   runApp(const MyApp());
 }
 
-const Color primaryDark = Color(0xFF0122DF);
+const Color primaryDark = Color(0xFF01DF44);
 
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
@@ -25,6 +27,7 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+    log(MediaQuery.of(context).size.width.toString());
     return MaterialApp(
       theme: theme(),
       home: Scaffold(
@@ -64,6 +67,7 @@ class _MyAppState extends State<MyApp> {
               CustomDropdown<String>.search(
                 items: List.generate(10, (index) => '${index + 1}'),
                 controller: controller,
+                itemBgColor: Colors.amber,
                 listItemBuilder: (context, result) {
                   return Text(
                     result,
@@ -98,6 +102,7 @@ class _MyAppState extends State<MyApp> {
                 controller: controller,
               )
             ]
+                .reversed
                 .map((e) => Padding(
                       padding: const EdgeInsets.symmetric(vertical: 28),
                       child: e,

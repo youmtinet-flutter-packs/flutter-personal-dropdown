@@ -29,6 +29,8 @@ class _DropdownOverlay<T> extends StatefulWidget {
   final String Function(T item)? searchableTextItem;
   final Widget Function(BuildContext context, T result) listItemBuilder;
 
+  final Color? itemBgColor;
+
   const _DropdownOverlay({
     Key? key,
     required this.items,
@@ -43,6 +45,7 @@ class _DropdownOverlay<T> extends StatefulWidget {
     required this.searchableTextItem,
     required this.onItemSelect,
     this.headerStyle,
+    this.itemBgColor,
     this.excludeSelected = false,
     this.canCloseOutsideBounds = true,
     this.hideSelectedFieldWhenOpen = false,
@@ -195,7 +198,7 @@ class _DropdownOverlayState<T> extends State<_DropdownOverlay<T>> {
               padding: _overlayOuterPadding,
               child: DecoratedBox(
                 decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.background,
+                  color: widget.itemBgColor ?? Theme.of(context).colorScheme.background,
                   borderRadius: borderRadius,
                   boxShadow: [
                     BoxShadow(
@@ -215,8 +218,8 @@ class _DropdownOverlayState<T> extends State<_DropdownOverlay<T>> {
                       key: key2,
                       height: items.length > 4
                           ? onSearch
-                              ? 530
-                              : 385
+                              ? 330
+                              : 285
                           : null,
                       child: ClipRRect(
                         borderRadius: borderRadius,
