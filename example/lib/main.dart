@@ -36,78 +36,77 @@ class _MyAppState extends State<MyApp> {
         ),
         body: Padding(
           padding: const EdgeInsets.symmetric(vertical: 48.0, horizontal: 20),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              /* CustomDropdown<int>.search(
-                items: List.generate(10, (index) => index + 1),
-                controller: controller,
-                listItemBuilder: (context, result) {
-                  return Text(
-                    'Player $result',
-                    style: TextStyle(
-                      color: result == selectedPlayer ? Colors.red : null,
-                      fontSize: result == selectedPlayer ? 18 : null,
-                      fontWeight: result == selectedPlayer ? FontWeight.bold : null,
-                    ),
-                  );
-                },
-                onItemSelect: (item) {
-                  setState(() {
-                    selectedPlayer = item;
-                  });
-                },
-                searchFunction: (int item, String searchPrompt) {
-                  return 'Player $item'.contains(searchPrompt);
-                },
-                searchableTextItem: (int item) {
-                  return '$item';
-                },
-              ), */
-              CustomDropdown<String>.search(
-                items: List.generate(10, (index) => '${index + 1}'),
-                controller: controller,
-                itemBgColor: Colors.amber,
-                listItemBuilder: (context, result) {
-                  return Text(
-                    result,
-                    style: TextStyle(
-                      color: result == '$selectedPlayer' ? Colors.red : null,
-                      fontSize: result == '$selectedPlayer' ? 18 : null,
-                      fontWeight: result == '$selectedPlayer' ? FontWeight.bold : null,
-                    ),
-                  );
-                },
-                onItemSelect: (item) {
-                  setState(() {
-                    selectedPlayer = int.parse(item);
-                  });
-                },
-                searchFunction: (item, String searchPrompt) {
-                  return 'Player $item'.contains(searchPrompt);
-                },
-                searchableTextItem: (item) {
-                  return item;
-                },
-              ),
-              Text(
-                'Selected Player is $selectedPlayer',
-                style: const TextStyle(
-                  color: Colors.green,
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold,
+          child: Center(
+            child: ListView(
+              shrinkWrap: true,
+              // mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                /* CustomDropdown<int>.search(
+                  items: List.generate(10, (index) => index + 1),
+                  controller: controller,
+                  listItemBuilder: (context, result) {
+                    return Text(
+                      'Player $result',
+                      style: TextStyle(
+                        color: result == selectedPlayer ? Colors.red : null,
+                        fontSize: result == selectedPlayer ? 18 : null,
+                        fontWeight: result == selectedPlayer ? FontWeight.bold : null,
+                      ),
+                    );
+                  },
+                  onItemSelect: (item) {
+                    setState(() {
+                      selectedPlayer = item;
+                    });
+                  },
+                  searchFunction: (int item, String searchPrompt) {
+                    return 'Player $item'.contains(searchPrompt);
+                  },
+                  searchableTextItem: (int item) {
+                    return '$item';
+                  },
+                ), */
+                CustomDropdown<String>.search(
+                  items: List.generate(4, (index) => '${index + 1}'),
+                  controller: controller,
+                  itemBgColor: Colors.amber,
+                  listItemBuilder: (context, result) {
+                    return Text(
+                      result,
+                      style: TextStyle(
+                        color: result == '$selectedPlayer' ? Colors.red : null,
+                        fontSize: result == '$selectedPlayer' ? 18 : null,
+                        fontWeight: result == '$selectedPlayer' ? FontWeight.bold : null,
+                      ),
+                    );
+                  },
+                  onItemSelect: (item) {
+                    setState(() {
+                      selectedPlayer = int.parse(item);
+                    });
+                  },
+                  searchFunction: (item, String searchPrompt) {
+                    return 'Player $item'.contains(searchPrompt);
+                  },
+                  searchableTextItem: (item) {
+                    return item;
+                  },
                 ),
-              ),
-              TextField(
-                controller: controller,
-              )
-            ]
-                .reversed
-                .map((e) => Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 28),
-                      child: e,
-                    ))
-                .toList(),
+                Text(
+                  'Selected Player is $selectedPlayer',
+                  style: const TextStyle(
+                    color: Colors.green,
+                    fontSize: 18,
+                  ),
+                ),
+                TextField(controller: controller),
+              ]
+                  .map((e) => Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 28),
+                        child: e,
+                      ))
+                  .toList(),
+            ),
           ),
         ),
       ),
@@ -117,11 +116,10 @@ class _MyAppState extends State<MyApp> {
   ThemeData theme() {
     return ThemeData.dark().copyWith(
       scaffoldBackgroundColor: Colors.grey.shade900,
-      useMaterial3: true,
       colorScheme: const ColorScheme.dark(
         primary: primaryDark,
         error: Color(0xFF85120A),
-        background: Colors.black,
+        surface: Colors.black,
       ),
       brightness: Brightness.dark,
       dialogBackgroundColor: Colors.transparent,

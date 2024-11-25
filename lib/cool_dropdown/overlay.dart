@@ -198,7 +198,7 @@ class _DropdownOverlayState<T> extends State<_DropdownOverlay<T>> {
               padding: _overlayOuterPadding,
               child: DecoratedBox(
                 decoration: BoxDecoration(
-                  color: widget.itemBgColor ?? Theme.of(context).colorScheme.background,
+                  color: widget.itemBgColor ?? Theme.of(context).colorScheme.surface,
                   borderRadius: borderRadius,
                   boxShadow: [
                     BoxShadow(
@@ -231,12 +231,12 @@ class _DropdownOverlayState<T> extends State<_DropdownOverlay<T>> {
                           child: Theme(
                             data: Theme.of(context).copyWith(
                               scrollbarTheme: ScrollbarThemeData(
-                                thumbVisibility: MaterialStateProperty.all(
+                                thumbVisibility: WidgetStateProperty.all(
                                   true,
                                 ),
-                                thickness: MaterialStateProperty.all(5),
+                                thickness: WidgetStateProperty.all(5),
                                 radius: const Radius.circular(4),
-                                thumbColor: MaterialStateProperty.all(grey),
+                                thumbColor: WidgetStateProperty.all(grey),
                               ),
                             ),
                             child: Column(
